@@ -1,3 +1,3 @@
-# PartyPlanner Parse
+# Party Patcher
 
-Parses PartyPlanner64 projects
+A CLI patcher for Party Planner64 Boards
