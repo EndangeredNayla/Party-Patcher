@@ -34,5 +34,5 @@ jobs:
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
-        name: TechnicParse-win32
-        path: D:\a\Technic-Parse\Technic-Parse\dist
+        name: PartyPatcher-win32
+        path: D:\a\Party-Patcher\Party-Patcher\dist
