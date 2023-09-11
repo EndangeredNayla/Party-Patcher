@@ -75,7 +75,7 @@ def download_manifest(search):
                         subprocess.run(["wine", "bin/partyplanner-cli.exe", "overwrite", "--rom-file", file_path, "--target-board-index", "0", "--board-file", ".tmp/" + filename[1:-1], "--output-file", ".tmp/patch.z64"])
                     elif platform.system() == "Windows":
                         subprocess.run(["bin/partyplanner-cli.exe", "overwrite", "--rom-file", file_path, "--target-board-index", "0", "--board-file", ".tmp/" + filename[1:-1], "--output-file", ".tmp/patch.z64"])
-                    elif
+                    elif:
                         break
                     file_path2 = filedialog.asksaveasfilename(title="Select the Output ROM", filetypes=[("Patched ROM", "*.z64")])
                     os.rename('.tmp/patch.z64', file_path2)
