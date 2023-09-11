@@ -1,4 +1,3 @@
-import argparse
 import platform
 import requests
 import re
@@ -9,13 +8,6 @@ from tkinter import filedialog
 import urllib.parse
 
 from bs4 import BeautifulSoup
-
-def parse_args():
-    parser = argparse.ArgumentParser(
-        description='Party Planner Parser')
-    parser.add_argument('-s', '--search', type=str, required=True, metavar="search", help='Parse Party Planner Search and give download URL.')
-    args = parser.parse_args()
-    return args
 
 def get_filename_from_cd(cd):
     if not cd:
@@ -29,17 +21,16 @@ def get_filename_from_cd(cd):
 def download_manifest(search):
     boardNameList = []
     boardURLList = []
-
-    urlHack = "https://www.mariopartylegacy.com/forum/search/1274/?q=" + search + "&t=resource&c[categories][0]=1&c[child_categories]=1&c[title_only]=1&o=date"
+    urlHack = "https://www.mariopartylegacy.com/forum/search/search?search_type=resource&keywords=" + search + "&t=resource&c[categories][0]=1&c[nodes]=1&c[title_only]=1&o=date"
     response = requests.get(urlHack)
     soup = BeautifulSoup(response.content, 'html.parser')
     boardTitles = soup.find_all('h3', class_="contentRow-title")
     boardList = []
     for title in boardTitles:
         boardName = title.get_text()
-        boardName = boardName.replace("MP1", "")
-        boardName = boardName.replace("MP2", "")
-        boardName = boardName.replace("MP3", "")
+        boardName = boardName.replace("MP1", "Mario Party 1 - ")
+        boardName = boardName.replace("MP2", "Mario Party 2 - ")
+        boardName = boardName.replace("MP3", "Mario Party 3 - ")
         boardName = boardName[1:]
         boardName = re.sub(r'\d\.\d', '', boardName)
         boardName = boardName[:-2]
@@ -82,6 +73,10 @@ def download_manifest(search):
                     open("bin/partyplanner-cli.exe", 'wb').write(r2.content)
                     if platform.system() != "Windows":
                         subprocess.run(["wine", "bin/partyplanner-cli.exe", "overwrite", "--rom-file", file_path, "--target-board-index", "0", "--board-file", ".tmp/" + filename[1:-1], "--output-file", ".tmp/patch.z64"])
+                    elif platform.system() == "Windows":
+                        subprocess.run(["bin/partyplanner-cli.exe", "overwrite", "--rom-file", file_path, "--target-board-index", "0", "--board-file", ".tmp/" + filename[1:-1], "--output-file", ".tmp/patch.z64"])
+                    elif
+                        break
                     file_path2 = filedialog.asksaveasfilename(title="Select the Output ROM", filetypes=[("Patched ROM", "*.z64")])
                     os.rename('.tmp/patch.z64', file_path2)
                     shutil.rmtree(".tmp")
@@ -95,4 +90,5 @@ def download_manifest(search):
         print("No matching download URLs found.")
 
 if __name__ == "__main__":
-    download_manifest(parse_args().search)
+    search_query = input("What board are you search for: ")
+    download_manifest(search_query)
