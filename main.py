@@ -78,7 +78,7 @@ def download_manifest(search):
                     else:
                         break
                     file_path2 = filedialog.asksaveasfilename(title="Select the Output ROM", filetypes=[("Patched ROM", "*.z64")])
-                    os.rename('.tmp/patch.z64', file_path2)
+                    shutil.move('.tmp/patch.z64', file_path2)
                     shutil.rmtree(".tmp")
                     break
                 else:
